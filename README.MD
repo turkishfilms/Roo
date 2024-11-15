@@ -1,6 +1,6 @@
-#Roo
+# Roo
 
-The Roo is a 28-key wireless split ergonomic keybaord running zmk.
+The Roo is a 28-key wireless split ergonomic keyboard running zmk.
 
 This keyboard was generated using ergogen (link to ergogen)
 
