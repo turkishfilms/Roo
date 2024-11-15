@@ -1,0 +1,251 @@
+{
+  meta:{
+    engine: 4.1.0,
+    version: 0.1.0,
+    author: Reginald Robinson,
+    github: https"//github/com/turkishfilms,
+  },
+
+  points:{
+    zones:{
+      matrix:{
+        anchor:{},
+        columns:{
+          pinky:{
+            rows:{
+              top:{
+                  to_net: P19
+              },
+              home:{
+                  to_net: P18
+              },
+              bottom:{
+                  to_net: P14
+              }
+            }
+          },
+          ring:{
+            rows:{
+              top:{
+                  to_net: P8
+              },
+              home:{
+                  to_net: P9
+              },
+              bottom:{
+                  to_net: P15
+              }
+            },
+            key:{
+              stagger: .75u
+            }
+          },
+          middle:{
+            rows:{
+              top:{
+                  to_net: P4,
+              },
+              home:{
+                  to_net: P5
+              },
+              bottom:{
+                  to_net: P7
+              }
+            },
+            key:{
+              stagger: .5u
+            }
+          },
+          index:{
+            rows:{
+              top:{
+                  to_net: P3
+              },
+              home:{
+                  to_net: P2
+              },
+              bottom:{
+                  to_net: P6
+              }
+            },
+            key:{
+              stagger: -.5u
+            }
+          },
+        },
+        rows:{
+          bottom:{},
+          home:{},
+          top:{},
+        },
+        key:{
+          tags:[switches]
+        }
+      },
+      thumb:{
+        anchor: {
+          ref: matrix_index_bottom,
+          shift: [0,-u]
+          },
+        columns:{
+          home:{
+            key:{
+              to_net: P16,
+            },
+          },
+          near:{
+            key:{
+              to_net: P10
+            }
+          },
+        },
+        rows:{
+          home:{},
+        },
+        key:{
+          tags:[switches]
+        }
+      },
+      hole:{
+        anchor: matrix_ring_bottom,
+        columns:{
+          pinky:{
+            rows:{
+              high:{
+                shift:[0,0],
+                skip:true,
+              }
+            }
+          },
+          mid:{
+            rows:{
+              high:{
+                shift:[-u,u/2]
+              },
+              low:{
+                shift:[u/2+1,u/2-2]
+              }
+            }
+          },
+          index:{
+            rows:{
+              low:{
+                shift:[u/2,-2.5u/2],
+                skip:true
+              },
+              high:{
+                shift:[-.25u,1.75u]
+              }
+            }
+          },
+        },
+        rows:{
+          low:{},
+          high:{bound:false},
+        },
+        key:{
+          shift: [-u/2,-u/4],
+          width: 10,
+          height: 10,
+          skip:true,
+          bound:false,
+          tags:[holes]
+        }
+      }
+    },
+    key: {
+      autobind:true,
+      from_net: GND
+      }
+  },
+
+  outlines:{
+    plate:{
+      caps:{
+        what: rectangle,
+        size: 20,
+        where: switches,
+        operation: add,
+        expand: 2
+      },
+      mcu:{
+        what: rectangle,
+        size: [u+5,2u],
+        where: matrix_index_bottom,
+        operation: add,
+        adjust:{
+          shift:[u,u/2],
+        },
+        joints: 1,
+        corner: 2,
+      },
+      throughholes:{
+        what: circle,
+        where: holes,
+        radius: 3,
+        operation: subtract,
+      },
+      expandedbottom:{
+        what: rectangle,
+        where: matrix_middle_bottom,
+        size:[u,u/2],
+        adjust:{
+          shift:[0,-u/2]
+        }
+      }
+    },
+  },
+
+  cases:{
+    base:{
+      main:{
+        what: outline,
+        name: plate,
+        extrude: 4,
+        operation: add
+      }
+    },
+    real:{
+      rooser:{
+        what: case,
+        name: base
+      }
+    }
+  },
+
+  pcbs:{
+    roo_left:{
+      outlines:{
+        outerplate:{
+          outline: plate,        
+          layer: Edge.Cuts
+        },
+      },
+        footprints:{
+          switches:{
+            where: switches,
+            what: choc,
+            params:{
+              from: "{{from_net}}",
+              to: "{{to_net}}",
+              hotswap: true,
+            },
+          },
+          nano:{
+            where: matrix_index_bottom,
+            what: promicro,
+            params:{
+              orientation: up
+            },
+            adjust: {
+              shift:[u,u/2],
+              rotate: -90,
+            },
+          },
+        }, 
+        references: true,
+        template: kicad8
+    },
+  },
+
+}
